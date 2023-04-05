@@ -1,14 +1,7 @@
 package com.cats.training
 
-final case class Order(units: Int, unitPrice: Double) {
-  val totalPrice: Double = units * unitPrice
-}
+import com.cats.training.session2.CreditCard
 
-object Order {
-  implicit val totalPriceOrdering = Ordering.fromLessThan[Order]((ord1, ord2) =>
-    ord1.totalPrice < ord2.totalPrice
-  )
-}
 
 final case class Rational(numerator: Int, denominator: Int)
 object Rational {
@@ -19,11 +12,7 @@ object Rational {
   })
 
 }
-final case class CreditCard(balance: Int)
-object CreditCard {
-  implicit val balanceOrder =
-    Ordering.fromLessThan[CreditCard]((x, y) => x.balance < y.balance)
-}
+
 
 object RationalLessThanOrdering {
   implicit val orderingLess = Ordering.fromLessThan[Rational]((x, y) =>
@@ -52,7 +41,7 @@ object Main extends App {
 
 //  println("Miaow")
 
-//  implicit val minOrdering = Ordering.fromLessThan[Int](_ < _)
+  implicit val minOrdering = Ordering.fromLessThan[Int](_ < _)
 //  implicit val maxOrdering = Ordering.fromLessThan[Int](_ > _)
 
   import MyContainer.absOrdering
