@@ -14,6 +14,13 @@ object XMLRenderer {
     override def render(a: Int): String = s"<Int>$a</Int>"
   }
 
+  implicit val cardRenderer = new XMLRenderer[CreditCard] {
+    override def render(a: CreditCard): String =
+      s"""
+        |<CreditCard>${a.balance}</CreditCard>
+        |""".stripMargin
+  }
+
   // THINK I LOST EVERYONE!
   // We are here when you get back -- cool I can carry oh in silence LOVE IT
 

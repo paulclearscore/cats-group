@@ -1,5 +1,18 @@
 package com.cats.training
 
-object Person {}
+import cats.Functor
+import com.cats.training.session2.Equal
 
-final case class Person(name: String, email: String)
+object Person {
+
+  implicit val personEqual = new Equal[Person] {
+    override def equal(a: Person, b: Person): Boolean =
+      a.name == b.name && a.email == b.email
+  }
+
+
+}
+
+final case class Person(name: String, email: String) {
+  object toXml
+}

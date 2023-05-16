@@ -1,21 +1,27 @@
 package com.cats.training.session2
 
 import com.cats.training.Person
-import com.cats.training.session2.Equality.Animal
+import com.cats.training.session2.Equality.{Animal, card1, card2}
 
 trait Equal[A] {
   def equal(a: A, b: A): Boolean
 }
 
 object Eq {
-  def apply[A](v1: A, v2: A)(implicit equal: Equal[A]): Boolean =
-    equal.equal(v1, v2)
+  def apply[A](v1: A, v2: A)(implicit iamTheInstance: Equal[A]): Boolean =
+    iamTheInstance.equal(v1, v2)
 }
 
-object Equal {
+//Eq(card1, card2))
 
-  def apply[A]()(implicit instance: Equal[A]): Equal[A] =
+object Equal {
+  def apply[A]()(implicit instance: Equal[A]): Equal[A] = {
     instance
+  }
+
+  implicit val stringEqual = new Equal[String] {
+    override def equal(a: String, b: String): Boolean = a.equalsIgnoreCase(b)
+  }
 
   implicit val creditCardEqual = new Equal[CreditCard] {
     override def equal(a: CreditCard, b: CreditCard): Boolean =
@@ -27,10 +33,7 @@ object Equal {
       a.name == b.name && a.wild == b.wild
   }
 
-  implicit val personEqual = new Equal[Person] {
-    override def equal(a: Person, b: Person): Boolean =
-      a.name == b.name && a.email == b.email
-  }
+
 }
 
 object AnotherPersonEqual {
@@ -52,7 +55,8 @@ object Equality extends App {
   val mickeyMouse = Person("Mickey Mouse", "mickey@disneyismine.come")
   val donaldDuckDouble = Person("Donald Duck", "donald@duck.com")
   val donaldDuckWithDifferentName = Person("Donald no Duck", "donald@duck.com")
-  import AnotherPersonEqual.anotherPersonEqual
+//  import AnotherPersonEqual.anotherPersonEqual
+import AnotherPersonEqual.anotherPersonEqual
 
   println(
     s"Donald and Mickey should not be the same -> ${equalityOfPerson(donaldDuck, mickeyMouse)}"
@@ -75,8 +79,16 @@ object Equality extends App {
   val animal3 = Animal("Lion", wild = true)
   private val animal2 = Animal("Dog", wild = false)
 
-  Eq(card1, card2)
+  println("Type Class Interface Pattern V1: " + Eq(card1, card2))
+
+  Eq.equals(donaldDuck, donaldDuckDouble)
+  Eq.equals(card1,card2)
+
   println(Eq.equals(card1, card2))
   println(Eq.equals(animal1, animal2))
+
+  println(
+    "Type Class Interface Pattern V2: " + Equal[CreditCard].equal(card1, card2)
+  )
 
 }
