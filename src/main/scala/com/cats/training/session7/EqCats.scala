@@ -18,16 +18,16 @@ object EqCats extends App {
   List(1, 2, 3).map(Option(_)).filter(item => item.contains(1))
 
   // Cats
-  List(1, 2, 3).map(Option(_)).filter(item => item === Some(1))
+//  List(1, 2, 3).map(Option(_)).filter(item => item === Some(1))
 
   val eqInt = Eq[Int]
 
   println(eqInt.eqv(123, 123))
   println(eqInt.eqv(123, 234))
   println(eqInt.neqv(123, 234))
-  println(123 === 123)
-  println(123 =!= 128)
+//  println(123 === 123)
+//  println(123 =!= 128)
 
-  (Some("Numpty") : Option[String]) === (None : Option[String])
+//  (Some("Numpty") : Option[String]) === (None : Option[String])
 
 }
